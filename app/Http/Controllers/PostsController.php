@@ -17,7 +17,11 @@ class PostsController extends Controller
     public function create()
     {
         $lastRow = Post::latest()->first();
-        $lastAreaCode = $lastRow->area_code + 1;
+        $lastAreaCode = 1;
+
+        if(!empty($lastRow->area_code)){
+            $lastAreaCode = $lastRow->area_code + 1;
+        }
 
         return view('posts.create', ['lastAreaCode' => $lastAreaCode]);
     }
@@ -36,7 +40,8 @@ class PostsController extends Controller
             'desc' => request('desc'),
             'floor' => request('floor'),
             'row' => request('row'),
-            'col' => request('col')
+            'col' => request('col'),
+            'status' => 'occupied'
         ]);
 
         return redirect('/posts');
